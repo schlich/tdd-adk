@@ -1,0 +1,108 @@
+direction: right
+
+title: Test-Driven Development (TDD) Cycle {
+  shape: text
+  near: top-center
+  style.font-size: 28
+  style.bold: true
+}
+
+# The three phases of TDD
+red: 1. RED {
+  shape: step
+  style.fill: "#FF4444"
+  style.font-color: white
+  style.bold: true
+  tooltip: "Write a failing test first"
+}
+
+green: 2. GREEN {
+  shape: step
+  style.fill: "#44AA44"
+  style.font-color: white
+  style.bold: true
+  tooltip: "Write minimal code to pass"
+}
+
+refactor: 3. REFACTOR {
+  shape: step
+  style.fill: "#4488FF"
+  style.font-color: white
+  style.bold: true
+  tooltip: "Improve code quality"
+}
+
+# Data flow details
+write_test: Write Failing Test {
+  shape: rectangle
+  style.fill: "#FFCCCC"
+  style.border-radius: 8
+}
+
+run_test_fail: Run Test\n(Fails ❌) {
+  shape: diamond
+  style.fill: "#FF8888"
+}
+
+write_code: Write Minimal Code {
+  shape: rectangle
+  style.fill: "#CCFFCC"
+  style.border-radius: 8
+}
+
+run_test_pass: Run Test\n(Passes ✓) {
+  shape: diamond
+  style.fill: "#88DD88"
+}
+
+improve_code: Refactor Code {
+  shape: rectangle
+  style.fill: "#CCE5FF"
+  style.border-radius: 8
+}
+
+all_tests: Run All Tests\n(Still Pass ✓) {
+  shape: diamond
+  style.fill: "#88BBFF"
+}
+
+# Main cycle flow
+red -> write_test: Start
+write_test -> run_test_fail: Execute {
+  style.animated: true
+}
+run_test_fail -> green: Verify Failure
+
+green -> write_code: Implement
+write_code -> run_test_pass: Execute {
+  style.animated: true
+}
+run_test_pass -> refactor: Verify Pass
+
+refactor -> improve_code: Clean Up
+improve_code -> all_tests: Execute {
+  style.animated: true
+}
+all_tests -> red: Repeat Cycle {
+  style.stroke: "#666666"
+  style.stroke-dash: 3
+}
+
+# Legend
+legend: Legend {
+  style.fill: "#F5F5F5"
+  style.border-radius: 8
+
+  red_phase: RED Phase {
+    style.fill: "#FF4444"
+    style.font-color: white
+  }
+  green_phase: GREEN Phase {
+    style.fill: "#44AA44"
+    style.font-color: white
+  }
+  blue_phase: REFACTOR Phase {
+    style.fill: "#4488FF"
+    style.font-color: white
+  }
+}
