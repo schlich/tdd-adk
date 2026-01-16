@@ -1,0 +1,36 @@
+name: Pre-commit Hooks (prek)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  prek:
+    name: Run prek hooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install D2
+        run: |
+          curl -fsSL https://d2lang.com/install.sh | sh -s --
+          sudo mv ./bin/d2 /usr/local/bin/
+
+      - name: Install Nix formatter (alejandra)
+        run: |
+          curl -fsSL https://github.com/kamadorueda/alejandra/releases/download/3.0.0/alejandra-x86_64-unknown-linux-musl -o alejandra
+          chmod +x alejandra
+          sudo mv alejandra /usr/local/bin/
+
+      - name: Install prek
+        run: |
+          curl -fsSL https://prek.j178.dev/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Run prek hooks
+        run: prek run --all-files
