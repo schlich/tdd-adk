@@ -1,0 +1,35 @@
+{
+  "feature_description": "Add validation to reject negative numbers in sum function",
+  "red_test_code": "def test_sum_rejects_negative_numbers():\n    \"\"\"Test that sum function raises ValueError for negative inputs.\"\"\"\n    with pytest.raises(ValueError, match=\"negative\"):\n        sum_numbers(-1, 5)",
+  "red_test_result": {
+    "test_name": "test_sum_rejects_negative_numbers",
+    "passed": false,
+    "failure_reason": "Did not raise expected ValueError",
+    "execution_time_ms": 3.1
+  },
+  "green_implementation": "def sum_numbers(a: int, b: int) -> int:\n    \"\"\"Add two numbers and return the result.\n    \n    Args:\n        a: First number\n        b: Second number\n        \n    Returns:\n        Sum of a and b\n        \n    Raises:\n        ValueError: If either number is negative\n    \"\"\"\n    if a < 0 or b < 0:\n        raise ValueError(\"Cannot sum negative numbers\")\n    return a + b",
+  "green_test_result": {
+    "test_name": "test_sum_rejects_negative_numbers",
+    "passed": true,
+    "failure_reason": null,
+    "execution_time_ms": 1.8
+  },
+  "refactor_changes": [
+    "Extract validation into separate function",
+    "Improve error message to specify which parameter was negative"
+  ],
+  "refactor_test_results": [
+    {
+      "test_name": "test_sum_rejects_negative_numbers",
+      "passed": true,
+      "failure_reason": null,
+      "execution_time_ms": 1.9
+    },
+    {
+      "test_name": "test_sum_rejects_negative_numbers",
+      "passed": true,
+      "failure_reason": null,
+      "execution_time_ms": 1.7
+    }
+  ]
+}

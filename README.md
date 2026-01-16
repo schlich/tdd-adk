@@ -11,33 +11,56 @@ This framework evaluates TDD cycles across the three classic phases:
 
 The evaluation uses pydantic-ai agents to assess whether TDD discipline was followed and provide constructive feedback.
 
+## Features
+
+- 📊 **Structured Evaluation**: Uses Pydantic models for type-safe, validated evaluation results
+- 🤖 **AI-Powered Analysis**: Leverages pydantic-ai with OpenAI GPT-4o-mini for intelligent TDD assessment
+- 🎯 **Phase-Specific Agents**: Specialized evaluators for RED, GREEN, and REFACTOR phases
+- 📝 **Detailed Feedback**: Provides actionable insights on TDD discipline adherence
+- 🔍 **Granular or Full-Cycle**: Evaluate individual phases or complete TDD cycles
+- 🧪 **Well-Tested**: Comprehensive test suite with 100% passing tests
+
 ## Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/schlich/tdd-adk.git
+cd tdd-adk
+
 # Install dependencies
 pip install -e .
 
-# Install development dependencies
+# Install development dependencies (for testing)
 pip install -e ".[dev]"
+```
+
+## Configuration
+
+Set your OpenAI API key:
+
+```bash
+export OPENAI_API_KEY="your-api-key-here"
 ```
 
 ## Usage
 
 ### CLI Evaluation
 
-Evaluate a TDD cycle from a JSON file:
+Evaluate a complete TDD cycle from a JSON file:
 
 ```bash
 python -m tdd_eval.cli examples/simple_tdd_cycle.json
 ```
 
-Save evaluation results to a file:
+Evaluate and save results:
 
 ```bash
-python -m tdd_eval.cli examples/simple_tdd_cycle.json -o results.json
+python -m tdd_eval.cli examples/validation_tdd_cycle.json -o results.json
 ```
 
 ### Programmatic Usage
+
+See `examples/programmatic_usage.py` for complete examples. Here's a quick start:
 
 ```python
 import asyncio
@@ -67,6 +90,41 @@ async def main():
     print(f"Passed TDD discipline: {evaluation.passed_tdd_discipline}")
 
 asyncio.run(main())
+```
+
+### Evaluating Individual Phases
+
+You can also evaluate just a single phase:
+
+```python
+from tdd_eval.evaluators import evaluate_red_phase, evaluate_green_phase
+
+# Evaluate only the RED phase
+red_evaluation = await evaluate_red_phase(cycle)
+print(f"RED phase score: {red_evaluation.score}")
+
+# Evaluate only the GREEN phase
+green_evaluation = await evaluate_green_phase(cycle)
+print(f"GREEN phase score: {green_evaluation.score}")
+```
+
+## Examples
+
+The `examples/` directory contains several sample TDD cycles:
+
+1. **simple_tdd_cycle.json** - Basic addition function with RED→GREEN→REFACTOR
+2. **validation_tdd_cycle.json** - Input validation with comprehensive refactoring
+3. **red_phase_only.json** - Example of evaluating just the RED phase
+4. **programmatic_usage.py** - Python script demonstrating API usage
+
+Run any example:
+
+```bash
+# CLI evaluation
+python -m tdd_eval.cli examples/simple_tdd_cycle.json
+
+# Programmatic example
+python examples/programmatic_usage.py
 ```
 
 ## Input Format
@@ -142,17 +200,40 @@ ruff format .
 
 # Lint code
 ruff check .
+
+# Fix linting issues automatically
+ruff check --fix .
 ```
 
 ## Architecture
 
 The framework uses pydantic-ai to create specialized evaluation agents:
 
-- `red_phase_agent`: Evaluates RED phase quality
-- `green_phase_agent`: Evaluates GREEN phase quality
-- `refactor_phase_agent`: Evaluates REFACTOR phase quality
+- `get_red_phase_agent()`: Returns agent for evaluating RED phase quality
+- `get_green_phase_agent()`: Returns agent for evaluating GREEN phase quality  
+- `get_refactor_phase_agent()`: Returns agent for evaluating REFACTOR phase quality
 
-Each agent uses structured output (Pydantic models) to ensure consistent evaluation format.
+Each agent:
+- Uses OpenAI GPT-4o-mini for intelligent analysis
+- Returns structured output via Pydantic models
+- Has a specialized system prompt tailored to its phase
+- Is lazily initialized to avoid requiring API keys at import time
+
+### Key Components
+
+- **Models** (`src/tdd_eval/models.py`): Pydantic models for TDD cycles and evaluations
+- **Evaluators** (`src/tdd_eval/evaluators.py`): AI-powered evaluation logic
+- **CLI** (`src/tdd_eval/cli.py`): Command-line interface for evaluations
+
+## Use Cases
+
+This evaluation framework can be used for:
+
+1. **Training**: Help developers learn TDD discipline by evaluating their practice cycles
+2. **Code Review**: Automated assessment of whether PRs follow TDD methodology
+3. **Research**: Collect data on TDD effectiveness and common anti-patterns
+4. **CI/CD**: Integrate TDD quality checks into development workflows
+5. **LLM Evaluation**: Assess how well AI coding agents follow TDD practices
 
 ## Related
 
