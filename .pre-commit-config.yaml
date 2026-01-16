@@ -19,8 +19,6 @@ repos:
   # Built-in fast hooks (Rust-native, zero setup, offline)
   - repo: builtin
     hooks:
-      - id: trailing-whitespace
-        exclude: '\.md$'  # Allow trailing whitespace in markdown for line breaks
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-toml

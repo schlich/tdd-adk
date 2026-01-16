@@ -18,6 +18,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
       - name: Install Nix
         uses: cachix/install-nix-action@v27
         with:
@@ -29,6 +34,9 @@ jobs:
         run: |
           # Install D2, nixfmt, and prek from nixpkgs using flake reference
           nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style nixpkgs#prek
+
+      - name: Set up Python dependencies with uv
+        run: uv sync --all-extras
 
       - name: Run prek hooks
         run: prek run --all-files

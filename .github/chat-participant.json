@@ -41,6 +41,11 @@
       "name": "cycle",
       "file": ".github/prompts/tdd-full-cycle.md",
       "description": "Complete RED-GREEN-REFACTOR cycle"
+    },
+    {
+      "name": "uv",
+      "file": ".github/prompts/uv-guide.md",
+      "description": "Guide for using uv for Python dependency management"
     }
   ]
 }

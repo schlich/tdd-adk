@@ -1,0 +1,16 @@
+{
+  "feature_description": "Calculate factorial of a number",
+  "red_test_code": "def test_factorial_of_five():\n    \"\"\"Test factorial calculation for n=5.\"\"\"\n    result = factorial(5)\n    assert result == 120",
+  "red_test_result": {
+    "test_name": "test_factorial_of_five",
+    "passed": false,
+    "failure_reason": "NameError: name 'factorial' is not defined",
+    "execution_time_ms": 2.0
+  },
+  "green_implementation": "# Not yet implemented - RED phase only",
+  "green_test_result": {
+    "test_name": "test_factorial_of_five",
+    "passed": false,
+    "failure_reason": "NameError: name 'factorial' is not defined"
+  }
+}
