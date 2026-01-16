@@ -18,17 +18,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install D2
-        run: |
-          curl -fsSL https://d2lang.com/install.sh | sh -s --
-          sudo mv ./bin/d2 /usr/local/bin/
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          # Enable flakes support
+          extra_nix_config: |
+            experimental-features = nix-command flakes
 
-      - name: Install Nix formatter (alejandra)
+      - name: Install dependencies from Nix
         run: |
-          # Using pinned version 3.0.0 for reproducibility
-          curl -fsSL https://github.com/kamadorueda/alejandra/releases/download/3.0.0/alejandra-x86_64-unknown-linux-musl -o alejandra
-          chmod +x alejandra
-          sudo mv alejandra /usr/local/bin/
+          # Install D2 and alejandra from nixpkgs using flake reference
+          nix profile install nixpkgs#d2 nixpkgs#alejandra
 
       - name: Install prek
         run: |
