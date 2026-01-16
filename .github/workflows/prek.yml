@@ -27,8 +27,8 @@ jobs:
 
       - name: Install dependencies from Nix
         run: |
-          # Install D2 and alejandra from nixpkgs using flake reference
-          nix profile install nixpkgs#d2 nixpkgs#alejandra
+          # Install D2 and nixfmt from nixpkgs using flake reference
+          nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style
 
       - name: Install prek
         run: |
