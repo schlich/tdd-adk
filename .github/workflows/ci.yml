@@ -12,11 +12,13 @@ jobs:
     name: Test with uv
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -31,14 +33,27 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
 
+      - name: Auto-format code
+        run: uv run ruff format .
+
+      - name: Commit formatting changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || git commit -m "style: auto-format code with ruff"
+
+      - name: Push formatting changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref || github.ref_name }}
+
       - name: Run tests
         run: uv run pytest tests/ -v
 
       - name: Run linter
         run: uv run ruff check .
-
-      - name: Check formatting
-        run: uv run ruff format --check .
 
   nix-build:
     name: Build with Nix and uv2nix
