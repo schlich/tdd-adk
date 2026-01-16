@@ -23,14 +23,16 @@ jobs:
 
       - name: Install Nix formatter (alejandra)
         run: |
+          # Using pinned version 3.0.0 for reproducibility
           curl -fsSL https://github.com/kamadorueda/alejandra/releases/download/3.0.0/alejandra-x86_64-unknown-linux-musl -o alejandra
           chmod +x alejandra
           sudo mv alejandra /usr/local/bin/
 
       - name: Install prek
         run: |
+          # Install prek >= 0.2.0 (minimum required by .pre-commit-config.yaml)
           curl -fsSL https://prek.j178.dev/install.sh | sh
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run prek hooks
-        run: $HOME/.local/bin/prek run --all-files
+        run: prek run --all-files
