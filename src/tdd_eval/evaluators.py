@@ -1,6 +1,5 @@
 """TDD cycle evaluators using pydantic-ai."""
 
-from typing import Optional
 
 from pydantic_ai import Agent
 
@@ -13,9 +12,9 @@ from tdd_eval.models import (
 )
 
 # Lazily initialized agents
-_red_phase_agent: Optional[Agent] = None
-_green_phase_agent: Optional[Agent] = None
-_refactor_phase_agent: Optional[Agent] = None
+_red_phase_agent: Agent | None = None
+_green_phase_agent: Agent | None = None
+_refactor_phase_agent: Agent | None = None
 
 
 def get_red_phase_agent() -> Agent:

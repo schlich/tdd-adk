@@ -1,7 +1,6 @@
 """Data models for TDD cycle evaluation."""
 
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -19,10 +18,10 @@ class TestResult(BaseModel):
 
     test_name: str = Field(description="Name of the test")
     passed: bool = Field(description="Whether the test passed")
-    failure_reason: Optional[str] = Field(
+    failure_reason: str | None = Field(
         default=None, description="Reason for failure if test failed"
     )
-    execution_time_ms: Optional[float] = Field(
+    execution_time_ms: float | None = Field(
         default=None, description="Test execution time in milliseconds"
     )
 
@@ -100,7 +99,7 @@ class FullCycleEvaluation(BaseModel):
 
     red_evaluation: RedPhaseEvaluation
     green_evaluation: GreenPhaseEvaluation
-    refactor_evaluation: Optional[RefactorPhaseEvaluation] = Field(
+    refactor_evaluation: RefactorPhaseEvaluation | None = Field(
         default=None, description="REFACTOR phase evaluation (if applicable)"
     )
     overall_score: float = Field(
