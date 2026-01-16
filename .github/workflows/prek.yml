@@ -33,4 +33,4 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run prek hooks
-        run: prek run --all-files
+        run: $HOME/.local/bin/prek run --all-files
