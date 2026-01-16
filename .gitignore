@@ -28,6 +28,10 @@ venv/
 ENV/
 env/
 .venv
+.venv/
+
+# uv
+.uv/
 
 # Testing
 .pytest_cache/

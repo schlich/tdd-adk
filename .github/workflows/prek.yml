@@ -27,8 +27,12 @@ jobs:
 
       - name: Install dependencies from Nix
         run: |
-          # Install D2, nixfmt, and prek from nixpkgs using flake reference
-          nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style nixpkgs#prek
+          # Install D2, nixfmt, prek, and uv from nixpkgs using flake reference
+          nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style nixpkgs#prek nixpkgs#uv
+
+      - name: Set up Python dependencies with uv
+        run: |
+          uv sync --all-extras
 
       - name: Run prek hooks
         run: prek run --all-files

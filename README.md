@@ -22,16 +22,25 @@ The evaluation uses pydantic-ai agents to assess whether TDD discipline was foll
 
 ## Installation
 
+This project uses [uv](https://github.com/astral-sh/uv) for fast, reliable Python package management.
+
 ```bash
 # Clone the repository
 git clone https://github.com/schlich/tdd-adk.git
 cd tdd-adk
 
-# Install dependencies
-pip install -e .
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# Install development dependencies (for testing)
-pip install -e ".[dev]"
+# Install dependencies
+uv sync --all-extras
+```
+
+Or use the Nix development shell (includes uv):
+
+```bash
+nix develop
+uv sync --all-extras
 ```
 
 ## Configuration
@@ -49,13 +58,13 @@ export OPENAI_API_KEY="your-api-key-here"
 Evaluate a complete TDD cycle from a JSON file:
 
 ```bash
-python -m tdd_eval.cli examples/simple_tdd_cycle.json
+uv run python -m tdd_eval.cli examples/simple_tdd_cycle.json
 ```
 
 Evaluate and save results:
 
 ```bash
-python -m tdd_eval.cli examples/validation_tdd_cycle.json -o results.json
+uv run python -m tdd_eval.cli examples/validation_tdd_cycle.json -o results.json
 ```
 
 ### Programmatic Usage
@@ -120,11 +129,11 @@ The `examples/` directory contains several sample TDD cycles:
 Run any example:
 
 ```bash
-# CLI evaluation
-python -m tdd_eval.cli examples/simple_tdd_cycle.json
+# CLI evaluation with uv
+uv run python -m tdd_eval.cli examples/simple_tdd_cycle.json
 
 # Programmatic example
-python examples/programmatic_usage.py
+uv run python examples/programmatic_usage.py
 ```
 
 ## Input Format
@@ -189,20 +198,20 @@ See `examples/simple_tdd_cycle.json` for a complete example.
 ### Running Tests
 
 ```bash
-pytest
+uv run pytest
 ```
 
 ### Code Quality
 
 ```bash
 # Format code
-ruff format .
+uv run ruff format .
 
 # Lint code
-ruff check .
+uv run ruff check .
 
 # Fix linting issues automatically
-ruff check --fix .
+uv run ruff check --fix .
 ```
 
 ## Architecture
