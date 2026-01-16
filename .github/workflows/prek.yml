@@ -1,0 +1,34 @@
+name: Pre-commit Hooks (prek)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  prek:
+    name: Run prek hooks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          # Enable flakes support
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Install dependencies from Nix
+        run: |
+          # Install D2, nixfmt, and prek from nixpkgs using flake reference
+          nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style nixpkgs#prek
+
+      - name: Run prek hooks
+        run: prek run --all-files
