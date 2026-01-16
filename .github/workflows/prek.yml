@@ -27,14 +27,8 @@ jobs:
 
       - name: Install dependencies from Nix
         run: |
-          # Install D2 and nixfmt from nixpkgs using flake reference
-          nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style
-
-      - name: Install prek
-        run: |
-          # Install prek >= 0.2.0 (minimum required by .pre-commit-config.yaml)
-          curl -fsSL https://prek.j178.dev/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          # Install D2, nixfmt, and prek from nixpkgs using flake reference
+          nix profile install nixpkgs#d2 nixpkgs#nixfmt-rfc-style nixpkgs#prek
 
       - name: Run prek hooks
         run: prek run --all-files

@@ -29,7 +29,7 @@
             d2 # D2 diagram renderer for .d2 files
 
             # Development tools
-            prek # Preview tool
+            prek # Rust-based pre-commit tool (https://prek.j178.dev/)
             just # Command runner
           ];
 
