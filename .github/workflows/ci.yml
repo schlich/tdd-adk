@@ -37,6 +37,9 @@ jobs:
       - name: Run linter
         run: uv run ruff check .
 
+      - name: Check formatting
+        run: uv run ruff format --check .
+
   nix-build:
     name: Build with Nix and uv2nix
     runs-on: ubuntu-latest
