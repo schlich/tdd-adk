@@ -1,0 +1,208 @@
+direction: right
+
+title: TDFlow Architecture {
+  shape: text
+  near: top-center
+  style.font-size: 28
+  style.bold: true
+}
+
+# Entry Points
+human_tests: Human-Written Tests {
+  shape: document
+  style.fill: "#E8F5E9"
+  style.stroke: "#4CAF50"
+  style.border-radius: 8
+}
+
+llm_tests: LLM-Generated Tests {
+  shape: document
+  style.fill: "#FFF3E0"
+  style.stroke: "#FF9800"
+  style.border-radius: 8
+}
+
+# Generate Tests Agent
+generate_tests: Generate Tests Agent {
+  shape: hexagon
+  style.fill: "#FF9800"
+  style.font-color: white
+  style.bold: true
+}
+
+# Main Algorithm Loop
+main_loop: TDFlow Main Loop {
+  style.fill: "#F5F5F5"
+  style.stroke: "#333333"
+  style.border-radius: 12
+  style.stroke-width: 2
+
+  run_tests: Run Tests {
+    shape: cylinder
+    style.fill: "#BBDEFB"
+    style.stroke: "#1976D2"
+  }
+
+  explore_files: Explore Files Agent {
+    shape: hexagon
+    style.fill: "#2196F3"
+    style.font-color: white
+    style.bold: true
+  }
+
+  proposed_patch: Proposed Patch {
+    shape: page
+    style.fill: "#E3F2FD"
+    style.stroke: "#1976D2"
+  }
+
+  apply_patch: Patch Applies? {
+    shape: diamond
+    style.fill: "#FFFDE7"
+    style.stroke: "#FBC02D"
+  }
+
+  revise_patch: Revise Patch Agent {
+    shape: hexagon
+    style.fill: "#FFC107"
+    style.font-color: black
+    style.bold: true
+  }
+
+  run_tests_again: Run All Tests {
+    shape: cylinder
+    style.fill: "#BBDEFB"
+    style.stroke: "#1976D2"
+  }
+
+  tests_pass: All Tests Pass? {
+    shape: diamond
+    style.fill: "#C8E6C9"
+    style.stroke: "#4CAF50"
+  }
+
+  debug_section: Debug Phase {
+    style.fill: "#FFEBEE"
+    style.border-radius: 8
+
+    debug_one_1: Debug Test 1 {
+      shape: hexagon
+      style.fill: "#F44336"
+      style.font-color: white
+    }
+
+    debug_one_2: Debug Test 2 {
+      shape: hexagon
+      style.fill: "#F44336"
+      style.font-color: white
+    }
+
+    debug_one_n: Debug Test N {
+      shape: hexagon
+      style.fill: "#F44336"
+      style.font-color: white
+    }
+
+    debug_one_1 -> debug_one_2: {style.stroke-dash: 3}
+    debug_one_2 -> debug_one_n: {style.stroke-dash: 3}
+  }
+
+  debug_reports: Debugging Reports {
+    shape: document
+    style.fill: "#FFCDD2"
+    style.stroke: "#F44336"
+    style.multiple: true
+  }
+
+  run_tests -> explore_files: Error messages
+  explore_files -> proposed_patch: Generate
+  proposed_patch -> apply_patch
+  apply_patch -> revise_patch: No {
+    style.stroke: "#F44336"
+  }
+  revise_patch -> proposed_patch: Fixed patch {
+    style.stroke-dash: 3
+  }
+  apply_patch -> run_tests_again: Yes {
+    style.stroke: "#4CAF50"
+  }
+  run_tests_again -> tests_pass
+  tests_pass -> debug_section: No {
+    style.stroke: "#F44336"
+  }
+  debug_section -> debug_reports
+  debug_reports -> explore_files: Feed back {
+    style.stroke: "#9C27B0"
+    style.stroke-dash: 3
+  }
+}
+
+success: Patch Resolves All Tests {
+  shape: oval
+  style.fill: "#4CAF50"
+  style.font-color: white
+  style.bold: true
+}
+
+patch_selection: Patch Selection {
+  shape: rectangle
+  style.fill: "#9E9E9E"
+  style.font-color: white
+  style.border-radius: 8
+}
+
+human_tests -> main_loop.run_tests: Provide tests {
+  style.stroke: "#4CAF50"
+  style.stroke-width: 2
+}
+
+llm_tests -> generate_tests: Issue description {
+  style.stroke: "#FF9800"
+}
+
+generate_tests -> main_loop.run_tests: Generated tests {
+  style.stroke: "#FF9800"
+  style.stroke-dash: 3
+}
+
+main_loop.tests_pass -> success: Yes {
+  style.stroke: "#4CAF50"
+  style.stroke-width: 2
+}
+
+main_loop -> patch_selection: Max iterations {
+  style.stroke: "#9E9E9E"
+  style.stroke-dash: 3
+}
+
+legend: Legend {
+  style.fill: "#FAFAFA"
+  style.border-radius: 8
+
+  agent: Agent {
+    shape: hexagon
+    style.fill: "#2196F3"
+    style.font-color: white
+  }
+
+  decision: Decision {
+    shape: diamond
+    style.fill: "#FFFDE7"
+  }
+
+  data: Data {
+    shape: document
+    style.fill: "#E3F2FD"
+  }
+
+  process: Process {
+    shape: cylinder
+    style.fill: "#BBDEFB"
+  }
+}
+
+insight: Key Insight - 94.3% success with human tests {
+  shape: text
+  style.font-size: 14
+  near: bottom-center
+}

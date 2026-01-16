@@ -1,0 +1,46 @@
+{
+  "name": "TDD Assistant",
+  "description": "Test-Driven Development assistant using TDFlow methodology. Helps with RED-GREEN-REFACTOR cycles, debugging failing tests, and writing reproduction tests.",
+  "prompts": [
+    {
+      "name": "red",
+      "file": ".github/prompts/tdd-red-phase.md",
+      "description": "Write a failing test (RED phase)"
+    },
+    {
+      "name": "green",
+      "file": ".github/prompts/tdd-green-phase.md",
+      "description": "Implement minimal code to pass (GREEN phase)"
+    },
+    {
+      "name": "refactor",
+      "file": ".github/prompts/tdd-refactor-phase.md",
+      "description": "Improve code quality (REFACTOR phase)"
+    },
+    {
+      "name": "debug",
+      "file": ".github/prompts/tdd-debug-one.md",
+      "description": "Debug a single failing test"
+    },
+    {
+      "name": "explore",
+      "file": ".github/prompts/tdd-explore-files.md",
+      "description": "Explore codebase and propose patches"
+    },
+    {
+      "name": "generate-tests",
+      "file": ".github/prompts/tdd-generate-tests.md",
+      "description": "Generate reproduction tests for an issue"
+    },
+    {
+      "name": "revise-patch",
+      "file": ".github/prompts/tdd-revise-patch.md",
+      "description": "Fix a patch that failed to apply"
+    },
+    {
+      "name": "cycle",
+      "file": ".github/prompts/tdd-full-cycle.md",
+      "description": "Complete RED-GREEN-REFACTOR cycle"
+    }
+  ]
+}

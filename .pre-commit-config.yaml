@@ -1,0 +1,72 @@
+# Pre-commit configuration for TDD-ADK project
+# Uses prek (https://prek.j178.dev/) - a faster Rust-based pre-commit alternative
+#
+# Usage with prek:
+#   prek run                    # Run on staged files
+#   prek run --all-files        # Run on all files
+#   prek run --hook-stage manual # Run manual hooks (tests, etc.)
+#
+# Usage with jj (colocated repos):
+#   Since jj auto-snapshots, run prek manually before pushing:
+#   prek run --all-files && jj git push
+#
+# Install hooks (for git-based workflows):
+#   prek install
+
+minimum_prek_version: '0.2.0'
+
+repos:
+  # Built-in fast hooks (Rust-native, zero setup, offline)
+  - repo: builtin
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.md$'  # Allow trailing whitespace in markdown for line breaks
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+        exclude: '\.vscode/.*\.json$'  # VS Code configs may have comments
+
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: detect-private-key
+      - id: check-case-conflict
+
+  # D2 diagram validation
+  - repo: local
+    hooks:
+      - id: d2-validate
+        name: Validate D2 diagrams
+        language: system
+        entry: sh -c 'for f in "$@"; do d2 fmt "$f" && d2 "$f" /dev/null 2>&1 || exit 1; done' --
+        files: '\.d2$'
+        pass_filenames: true
+        description: Format and validate D2 diagram syntax
+
+  # Nix formatting (if alejandra or nixfmt is available)
+  - repo: local
+    hooks:
+      - id: nix-fmt
+        name: Format Nix files
+        language: system
+        entry: sh -c 'command -v alejandra >/dev/null 2>&1 && alejandra "$@" || command -v nixfmt >/dev/null 2>&1 && nixfmt "$@" || echo "No Nix formatter found, skipping"' --
+        files: '\.nix$'
+        pass_filenames: true
+        description: Format Nix files with alejandra or nixfmt
+
+  # Manual stage hooks (run with --hook-stage manual)
+  - repo: local
+    hooks:
+      - id: check-all
+        name: Full quality check
+        language: system
+        entry: sh -c 'echo "Running full quality checks..." && prek run --all-files'
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+        description: Run all hooks on entire codebase
