@@ -1,6 +1,6 @@
 """TDD cycle evaluation framework using pydantic-ai."""
 
-from .models import (
+from tdd_eval.models import (
     EvaluationResult,
     FullCycleEvaluation,
     GreenPhaseEvaluation,

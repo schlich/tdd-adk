@@ -4,8 +4,8 @@ import asyncio
 import json
 from pathlib import Path
 
-from .evaluators import evaluate_full_cycle
-from .models import EvaluationResult, TDDCycle
+from tdd_eval.evaluators import evaluate_full_cycle
+from tdd_eval.models import EvaluationResult, TDDCycle
 
 
 async def run_evaluation(cycle_data: dict) -> EvaluationResult:

@@ -4,7 +4,7 @@ from typing import Optional
 
 from pydantic_ai import Agent
 
-from .models import (
+from tdd_eval.models import (
     FullCycleEvaluation,
     GreenPhaseEvaluation,
     RedPhaseEvaluation,
